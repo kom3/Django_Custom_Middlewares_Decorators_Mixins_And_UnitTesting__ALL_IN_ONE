@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    {% block header %}
+    <div class="header">DRF Token Authentication Demo App</div>
+    {% endblock header %}
+
+
+    {% block body %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="formbody">
+            <div class="dflex">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text">
+            </div>
+            <div class="dflex">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password">
+            </div>
+            <div class="dflex"><button type="submit" style="width: 200px;">Login and Get Access Token</button></div>
+            {% if form.errors %}
+            <p class="text-center err-text">Invalid username and password combination. Please try again.</p>
+            {% endif %}
+            <hr>
+            <hr>
+            <hr>
+            <!-- <div class="footer-text">Access Token Will Be Displayed Here:</div> -->
+            <div class="dflex">
+                <label for="access token">Access Token</label>
+                <input type="text" id="accesstoken" placeholder="token will be updated here" disabled>
+            </div>
+            <hr>
+            <hr>
+            <hr>
+            <div class="footer-text">Protected End Points:</div>
+        </div>
+    </form>
+    {% endblock body %}
+
+
+
+</body>
+
+</html>
