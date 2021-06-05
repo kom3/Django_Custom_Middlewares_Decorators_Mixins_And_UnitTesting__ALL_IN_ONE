@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium</title>
+</head>
+
+<body>
+    <a href='{% url "managefreecustomers" %}'>check free members</a><br>
+    <a href='{% url "home" %}'>Goto home</a>
+
+    <hr>
+    <h2>Below are paid members</h2>
+    <ul>
+        {% for cust in customers %}
+        <li>{{cust}}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

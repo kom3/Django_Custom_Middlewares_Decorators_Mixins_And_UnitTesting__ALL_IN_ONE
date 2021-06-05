@@ -48,6 +48,18 @@
             <hr>
             <hr>
             <div class="footer-text">Protected End Points:</div>
+            <hr>
+            <hr>
+            <h2>The below apis are using custom mixin to generate users list and to render respective templates</h2>
+            <ul>
+                <li>
+                    <a href='{% url "managepremiumcustomers" %}'>check premium members</a>
+                </li>
+                <li>
+                    <a href='{% url "managefreecustomers" %}'>check free members</a>
+
+                </li>
+            </ul>
         </div>
     </form>
     {% endblock body %}

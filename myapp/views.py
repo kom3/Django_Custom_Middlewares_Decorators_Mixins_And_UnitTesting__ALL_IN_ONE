@@ -1,3 +1,8 @@
+from .mycustommixins import MyCustGenListMixin
+from django.views import View
+from django.core.serializers import serialize
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -50,20 +55,45 @@ def decorator_friend(request):
 # from django.db.models import Q
 # from django.db.models import F
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
 # from django.contrib.auth import login
-from django.core.serializers import serialize
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Existing super Users in db:
+# admin:test
+# user:test
+# user1:test
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 @login_required
 def gettoken(request):
     # request = dict(request)
     token = Token.objects.filter(user=request.user)
-    token = serialize('json', token)
     if not token:
+        print("Token not found | Generating...")
         token = Token.objects.create(user=request.user)
         token = token.key
-    print(token)
+        print("Generated Token:", token)
+    else:
+        token = serialize('json', token)
+        token = json.loads(token)
+        print("Data form db:", token, type(token))
+        token = token[0].get('pk')
+        print("Token Found In DB:", token)
+
     response = {"status": 200, "message": token}
     return HttpResponse(json.dumps(response))
+
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Custom Mixin in class view  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+class ManagePremiumCustomers(MyCustGenListMixin, View):
+    cust_data = {"customers": ["Iron man",
+                               "Thanos", "Captain America", "Ant man"]}
+    template = "premium_cust.html"
+
+
+class ManageFreeCustomers(MyCustGenListMixin, View):
+    cust_data = {"customers": ["Manju", "Anil", "Brian"]}
+    template = "normal_cust.html"
